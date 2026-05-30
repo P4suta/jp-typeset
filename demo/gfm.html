@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>jp-typeset × GFM 総合</title>
+    <link rel="stylesheet" href="/dist/jp-typeset.css" />
+    <style>
+      /* ページ枠のみ。プリセットの検証が目的なので chrome は最小限。 */
+      body {
+        margin-inline: auto;
+        max-inline-size: 46rem;
+        padding: 2rem 1.25rem 6rem;
+        font-family: var(--jp-font-family, system-ui, sans-serif);
+      }
+      :root {
+        --jp-font-family: "Noto Sans CJK JP", sans-serif;
+      }
+      table {
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid #8886;
+        padding: 0.3em 0.6em;
+      }
+      pre {
+        overflow-x: auto;
+        padding: 0.75rem 1rem;
+        background: #8881;
+        border-radius: 0.5rem;
+      }
+      :not(pre) > code {
+        padding: 0.1em 0.3em;
+        background: #8882;
+        border-radius: 0.25em;
+      }
+      img {
+        max-inline-size: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>日本語Web組版とGFM</h1>
+    <p>
+      これはMarkdown(GFM)から生成される典型的なHTMLを、jp-typesetで組んだ見本。本文の段落は文頭が1字下げされ、両端揃えになる。和文と<strong>HTMLやCSS</strong>のような欧文の間には四分アキが入り、<em>重要な語</em>は圏点で強調される。<del>取り消し線</del>や<code
+        >inline code</code
+      >、<a href="#">リンク</a>も自然に混ざる。
+    </p>
+
+    <h2>見出しレベル2(節)</h2>
+    <p>
+      段落が続く場合、2つ目以降の段落も行頭字下げされる。長い文章を入れて折り返しと禁則を確認する。たとえば「鍵括弧」や、句読点が行頭に来ないこと、約物が適切に扱われることなどが大切である。
+    </p>
+
+    <h3>見出しレベル3(項)</h3>
+
+    <h4>箇条書き</h4>
+    <ul>
+      <li>第一の項目。リスト項目は字下げせず両端揃え。</li>
+      <li>第二の項目。長めの文を入れて、項目内での折り返しと禁則処理が効くかを確認していく。</li>
+      <li>
+        入れ子のリスト
+        <ul>
+          <li>子項目その一</li>
+          <li>子項目その二</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h4>番号付きリスト</h4>
+    <ol>
+      <li>最初の手順を実行する。</li>
+      <li>次の手順に進む。</li>
+      <li>最後に確認する。</li>
+    </ol>
+
+    <h4>タスクリスト</h4>
+    <ul>
+      <li><input type="checkbox" checked disabled /> 済んだ作業</li>
+      <li><input type="checkbox" disabled /> これからの作業</li>
+    </ul>
+
+    <h4>引用</h4>
+    <blockquote>
+      <p>
+        引用は左を2字下げし、行頭字下げはしない。前後にアキを取る。欧文的な左の縦罫線は付けない。
+      </p>
+      <p>複数段落の引用でも、各段落は字下げされない。</p>
+    </blockquote>
+
+    <h4>コード</h4>
+    <p>
+      文中の<code>const 名前 = "値";</code
+      >のようなコードは等幅で、和欧間アキを入れてはいけない。ブロックも同様。
+    </p>
+    <pre><code>// 日本語のコメントとcodeが混在する例
+function あいさつ(名前) {
+  return `こんにちは、${名前}さん`;
+}
+console.log(あいさつ("世界"));</code></pre>
+
+    <h4>表</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>機能</th>
+          <th>対応</th>
+          <th>備考</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>禁則処理</td>
+          <td>全エンジン</td>
+          <td>行頭・行末の約物</td>
+        </tr>
+        <tr>
+          <td>和欧間アキ</td>
+          <td>全4エンジン</td>
+          <td>text-autospace</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>区切り線と画像</h4>
+    <hr />
+    <p>水平線の下に画像が続く。代替テキストも日本語で表示される。</p>
+    <img
+      src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='80'><rect width='320' height='80' fill='%23ccc'/><text x='160' y='48' font-size='20' text-anchor='middle'>図版サンプル</text></svg>"
+      alt="図版サンプル"
+    />
+  </body>
+</html>

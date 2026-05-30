@@ -23,4 +23,11 @@
     /* 任意の推奨和文フォント(既定は継承) */
     font-family: var(--jp-font-family);
   }
+
+  /* コード(等幅)要素には和文の文字組みを持ち込まない: 等幅を保ち、和欧アキも入れない。
+     上の core ルールの font-family / text-autospace を code 系で打ち消す(同レイヤー後置で上書き)。 */
+  :where(:lang(ja), .jp) :where(code, kbd, samp, pre) {
+    font-family: var(--jp-mono);
+    text-autospace: no-autospace;
+  }
 }

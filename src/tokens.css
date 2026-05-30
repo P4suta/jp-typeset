@@ -24,6 +24,9 @@
        約物のアキ詰め(text-spacing-trim)には halt/chws を持つフォントが必要。 */
     --jp-font-family: inherit;
 
+    /* コード(等幅)要素のフォント。和文の文字組みを持ち込まず等幅を保つ。 */
+    --jp-mono: monospace;
+
     /* ルビ文字(rt)の大きさ(親文字に対する比) */
     --jp-rt-scale: 0.5em;
 
