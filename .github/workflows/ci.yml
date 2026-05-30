@@ -9,7 +9,7 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       # ローカルと同一の Docker 環境(フォント・ブラウザ・just・typos 同梱)で検証し、
       # 視覚回帰の基準画像も同じレンダリングで揃える。コンテナは非root(UID/GID 1000)で動く。
