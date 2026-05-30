@@ -336,6 +336,26 @@
       <pre class="case__code"><code></code></pre>
     </section>
 
+    <!-- ── 縦書き(.jp-vertical)＋縦中横・ルビ・圏点 ── -->
+    <section class="case" id="vertical">
+      <h2 class="case__title">縦書き(.jp-vertical)＋縦中横・ルビ・圏点</h2>
+      <p class="case__meta">
+        <b>期待:</b> 縦書きで、禁則・字下げ・両端揃え・ルビ(右)・圏点(右)・縦中横が効く。
+      </p>
+      <p class="case__meta"><b>ネイティブ:</b> 全エンジン (writing-mode / text-combine-upright)</p>
+      <template class="case__src"
+        ><div class="jp-vertical" data-test="vertical" lang="ja" style="block-size: 11em">
+          <p>
+            昭和<span class="jp-tcy" data-test="tcy">64</span>年、<ruby data-test="vruby"
+              >青空<rp>(</rp><rt>あおぞら</rt><rp>)</rp></ruby
+            >の下で<em>大切な一日</em>を過ごした。
+          </p>
+        </div></template
+      >
+      <div class="case__demo"></div>
+      <pre class="case__code"><code></code></pre>
+    </section>
+
     <script type="module">
       // 各ケースの <template> を「ライブ描画」と「ソース表示」の両方に展開する(単一の真実源)。
       for (const section of document.querySelectorAll(".case")) {

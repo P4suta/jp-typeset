@@ -10,12 +10,20 @@
     font-style: normal;
   }
 
-  /* 強調 <em> は斜体ではなく圏点(傍点)で示すのが和文の標準。 */
+  /* 強調 <em> は斜体ではなく圏点(傍点)で示すのが和文の標準。
+     位置は over right: 横組みは上、縦組みは行の右側に自動で付く。 */
   :where(:lang(ja), .jp) :where(em) {
     text-emphasis: var(--jp-emphasis);
+    text-emphasis-position: over right;
   }
 
-  /* ルビ(ふりがな)。標準の <ruby>/<rt> を和文向けの大きさ・行送りに整える。 */
+  /* ルビ(ふりがな)。標準の <ruby>/<rt> を和文向けの大きさ・行送りに整える。
+     位置は親文字の上(縦組みでは右)、中付き(center)で配置する。 */
+  :where(:lang(ja), .jp) :where(ruby) {
+    ruby-position: over;
+    ruby-align: center;
+  }
+
   :where(:lang(ja), .jp) :where(rt) {
     font-size: var(--jp-rt-scale);
     line-height: var(--jp-rt-leading);

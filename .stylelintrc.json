@@ -4,7 +4,19 @@
   "rules": {
     "import-notation": "string",
     "custom-property-pattern": "^jp-[a-z][a-z0-9]*(-[a-z0-9]+)*$",
-    "property-no-unknown": [true, { "ignoreProperties": ["text-autospace", "text-spacing-trim"] }],
+    "property-no-unknown": [
+      true,
+      {
+        "ignoreProperties": [
+          "text-autospace",
+          "text-spacing-trim",
+          "text-wrap",
+          "ruby-align",
+          "ruby-position",
+          "text-combine-upright"
+        ]
+      }
+    ],
     "selector-max-specificity": "0,0,0",
     "selector-max-id": 0,
     "selector-max-universal": 0,

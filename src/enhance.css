@@ -38,4 +38,19 @@
       text-justify: inter-character;
     }
   }
+
+  /* 行末処理: 本文は pretty で末行に孤立した1文字が残るのを避ける。
+     日本語はベタ組みのため本文に balance は使わない(行幅を変えてしまう)。 */
+  @supports (text-wrap: pretty) {
+    :where(:lang(ja), .jp) :where(p, li, dd, blockquote) {
+      text-wrap: pretty;
+    }
+  }
+
+  /* 見出しは balance で行幅を均等化(短い見出しの不揃いを防ぐ)。 */
+  @supports (text-wrap: balance) {
+    :where(:lang(ja), .jp) :where(h1, h2, h3, h4, h5, h6) {
+      text-wrap: balance;
+    }
+  }
 }

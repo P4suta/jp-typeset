@@ -1,0 +1,20 @@
+/**
+ * jp.utilities — オプトインのユーティリティ(常時・全エンジン)
+ *
+ * クラスを付けた要素だけに効く。文書全体に強制したくない機能(縦書き・縦中横)を提供する。
+ * プリセットは全面的に論理プロパティで書かれているため、writing-mode を切り替えるだけで
+ * 既存の組版(禁則・字下げ・両端揃え・ぶら下げ・ルビ・圏点)がそのまま縦組みに移行する。
+ */
+@layer jp.utilities {
+  /* 縦書き。行は右から左へ進む。text-orientation は既定の mixed のまま(欧数字は横向き)。
+     縦組みを表示するには要素に高さ(block-size)を与えること。 */
+  :where(.jp-vertical) {
+    writing-mode: vertical-rl;
+  }
+
+  /* 縦中横: 縦組み中の半角数字・欧字を1文字分の幅で横に並べる。
+     例: <span class="jp-tcy">12</span> 月 */
+  :where(.jp-tcy) {
+    text-combine-upright: all;
+  }
+}

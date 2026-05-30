@@ -8,15 +8,17 @@
  *   jp.tokens   … デザイントークン(--jp-*)。全数値の単一の真実源(SSOT)
  *   jp.core     … 文字組みの基層(禁則・折り返し・和欧間アキ)。常時・全エンジン
  *   jp.prose    … 標準的な書き方の規則(行間・両端揃え・段落字下げ)
- *   jp.richtext … 標準の行内意味要素の和文表現(ルビ・圏点)。常時・全エンジン
- *   jp.enhance  … @supports による段階強化。対応エンジンでのみ上乗せ
+ *   jp.richtext  … 標準の行内意味要素の和文表現(ルビ・圏点)。常時・全エンジン
+ *   jp.enhance   … @supports による段階強化。対応エンジンでのみ上乗せ
+ *   jp.utilities … オプトインのユーティリティ(縦書き・縦中横など)。クラスを付けた時だけ
  *
  * ビルド: Lightning CSS が @import を1枚に束ねる(dist/jp-typeset.css)。
  */
-@layer jp.tokens, jp.core, jp.prose, jp.richtext, jp.enhance;
+@layer jp.tokens, jp.core, jp.prose, jp.richtext, jp.enhance, jp.utilities;
 
 @import "./tokens.css";
 @import "./core.css";
 @import "./prose.css";
 @import "./richtext.css";
 @import "./enhance.css";
+@import "./utilities.css";

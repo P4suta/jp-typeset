@@ -188,3 +188,25 @@ test('引用: 和文ブロック引用は字下げ方式・引用内の段落は
   // 引用は全体の字下げで示すため、引用内の段落は行頭字下げしない。
   expect(result.paraIndent).toBe(0)
 })
+
+test('jp.utilities: 縦書き(.jp-vertical)・縦中横(.jp-tcy)・ルビ位置が効く', async ({ page }) => {
+  const result = await page.evaluate(() => {
+    const read = (selector: string) => {
+      const el = document.querySelector(selector)
+      if (el === null) {
+        throw new Error(`${selector} が見つかりません`)
+      }
+      return getComputedStyle(el)
+    }
+    return {
+      writingMode: read('[data-test="vertical"]').getPropertyValue('writing-mode'),
+      tcy: read('[data-test="tcy"]').getPropertyValue('text-combine-upright'),
+      rubyPosition: read('[data-test="vruby"]').getPropertyValue('ruby-position'),
+    }
+  })
+
+  expect(result.writingMode).toBe('vertical-rl')
+  expect(result.tcy).toBe('all')
+  // ルビ位置 over(縦組みでは自動で行の右側に付く)。
+  expect(result.rubyPosition).toContain('over')
+})
