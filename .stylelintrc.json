@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json.schemastore.org/stylelintrc",
+  "extends": ["stylelint-config-standard"],
+  "rules": {
+    "import-notation": "string",
+    "custom-property-pattern": "^jp-[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+    "property-no-unknown": [true, { "ignoreProperties": ["text-autospace", "text-spacing-trim"] }],
+    "selector-max-specificity": "0,0,0",
+    "selector-max-id": 0,
+    "selector-max-universal": 0,
+    "declaration-no-important": true,
+    "no-descending-specificity": null,
+    "comment-empty-line-before": null,
+    "property-disallowed-list": [
+      "/^margin-(top|right|bottom|left)$/",
+      "/^padding-(top|right|bottom|left)$/",
+      "/^(top|right|bottom|left)$/",
+      "/^(min-|max-)?(width|height)$/",
+      "/^border-(top|right|bottom|left)/",
+      "/^overflow-(x|y)$/"
+    ],
+    "declaration-property-value-allowed-list": {
+      "line-height": ["/^var\\(--jp-/"],
+      "text-indent": ["/^var\\(--jp-/", "0"],
+      "text-align": ["/^var\\(--jp-/"],
+      "margin-block": ["/^var\\(--jp-/"],
+      "font-family": ["/^var\\(--jp-/"]
+    }
+  }
+}

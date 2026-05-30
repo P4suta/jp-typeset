@@ -1,0 +1,41 @@
+/**
+ * jp.enhance — 段階強化(@supports / 対応エンジンのみ)
+ *
+ * 最新の CSS I18n 機能を、対応しているエンジンでのみ上乗せする。
+ * base 層(jp.core/jp.prose)を一切壊さず、未対応環境は素のブラウザ挙動にフォールバック。
+ * 各機能が普及したら、この層のブロックを消すだけでよい(陳腐化に強い構成)。
+ */
+@layer jp.enhance {
+  /* 約物のアキ詰め・行頭の開き括弧の半角化。
+     現状 Chromium 系のみ。halt/chws を持つフォントが必要。 */
+  @supports (text-spacing-trim: space-first) {
+    :where(:lang(ja), .jp) {
+      text-spacing-trim: space-first;
+    }
+  }
+
+  /* ぶら下げ組。first はブロック先頭行の行頭開き括弧を、allow-end は行末の句読点を
+     版面外へ逃がす(2行目以降の行頭には効かない)。現状 Safari 系のみ。 */
+  @supports (hanging-punctuation: first) {
+    :where(:lang(ja), .jp) {
+      hanging-punctuation: first allow-end;
+    }
+  }
+
+  /* 文節での自然改行。見出し・短文の不自然な1文字折り返し(PEZ化)を防ぐ。
+     本文段落には当てない(Chrome 公式ガイドも本文全体への適用は非推奨)。
+     現状 Chromium 系のみ。lang="ja" が必要。 */
+  @supports (word-break: auto-phrase) {
+    :where(:lang(ja), .jp) :where(h1, h2, h3, h4, h5, h6, caption, figcaption, dt, th, summary) {
+      word-break: auto-phrase;
+    }
+  }
+
+  /* 両端揃え時の均等割り。Safari は inter-character 非対応のため段階強化扱い。
+     ※ 英数字・記号を多く含む行では字間が広がることがある。 */
+  @supports (text-justify: inter-character) {
+    :where(:lang(ja), .jp) :where(p, li, dd, blockquote) {
+      text-justify: inter-character;
+    }
+  }
+}

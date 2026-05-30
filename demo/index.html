@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>jp-typeset 見本帳</title>
+    <!-- プリセット本体(ビルド成果物)。ページ全体が lang="ja" なので自動適用される。 -->
+    <link rel="stylesheet" href="/dist/jp-typeset.css" />
+    <style>
+      /* ── 見本帳の枠(chrome)。プリセットとは別物。詳細度を持つので
+            ゼロ詳細度のプリセットより優先され、枠の体裁を確実に制御する。 ── */
+      :root {
+        color-scheme: light dark;
+        --frame: #8884;
+        /* 例の本文を halt/chws を持つフォントに固定し、約物詰め(text-spacing-trim)を可視化する。 */
+        --jp-font-family: "Noto Sans CJK JP", "Noto Sans JP", sans-serif;
+      }
+      body.demo {
+        margin-inline: auto;
+        max-inline-size: 48rem;
+        padding: 2rem 1.25rem 6rem;
+        font-family: system-ui, sans-serif;
+      }
+      body.demo .page-title {
+        text-indent: 0;
+        text-align: start;
+        line-height: 1.3;
+      }
+      body.demo .lede {
+        text-indent: 0;
+        color: #888;
+      }
+      .case {
+        margin-block: 2.5rem 0;
+        padding-block-start: 1.5rem;
+        border-block-start: 1px solid var(--frame);
+      }
+      .case__title {
+        text-indent: 0;
+        text-align: start;
+        font-size: 1.1rem;
+        line-height: 1.3;
+      }
+      .case__meta {
+        margin-block: 0.25rem;
+        text-indent: 0;
+        text-align: start;
+        font-size: 0.8rem;
+        color: #888;
+      }
+      .case__meta b {
+        color: inherit;
+      }
+      .case__demo {
+        margin-block: 0.75rem;
+        padding: 1rem;
+        border: 1px solid var(--frame);
+        border-radius: 0.5rem;
+        background: #8881;
+      }
+      .case__code {
+        overflow-x: auto;
+        margin: 0;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        background: #8882;
+        font-size: 0.78rem;
+      }
+      .case__code code {
+        font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+        white-space: pre-wrap;
+      }
+      /* 折り返しを観察するケースは幅を絞る。 */
+      .narrow .case__demo {
+        max-inline-size: 9em;
+      }
+      .narrower .case__demo {
+        max-inline-size: 7em;
+      }
+    </style>
+  </head>
+  <body class="demo">
+    <h1 class="page-title">jp-typeset 見本帳</h1>
+    <p class="lede">
+      日本語Web組版の標準的な書き方の規則を、対応ブラウザでどこまで実現できるかを並べた一覧。
+      各カードの枠内がプリセット適用後の描画、下のコードがその HTML ソース。
+    </p>
+
+    <!-- ── 基本(computed-style テストのフィクスチャを兼ねる) ── -->
+    <section class="case" id="basics">
+      <h2 class="case__title">基本: 段落の字下げ・両端揃え・行間</h2>
+      <p class="case__meta">
+        <b>期待:</b> 段落 p は文頭1字下げ＆両端揃え。見出しは字下げ・両端揃えされない。
+      </p>
+      <p class="case__meta">
+        <b>ネイティブ:</b> 全エンジン (text-indent / text-align / line-height)
+      </p>
+      <template class="case__src"
+        ><div data-test="scope" lang="ja">
+          <h3 data-test="heading">吾輩は猫である</h3>
+          <p data-test="paragraph">
+            吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。
+          </p>
+          <p>
+            吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。
+          </p>
+        </div></template
+      >
+      <div class="case__demo"></div>
+      <pre class="case__code"><code></code></pre>
+    </section>
+
+    <!-- ── ルビ(標準の <ruby> 要素) ── -->
+    <section class="case" id="ruby">
+      <h2 class="case__title">ルビ(ふりがな)</h2>
+      <p class="case__meta"><b>期待:</b> 標準の &lt;ruby&gt; のルビ文字が親文字より小さく整う。</p>
+      <p class="case__meta"><b>ネイティブ:</b> 全エンジン (標準の ruby/rt)</p>
+      <template class="case__src"
+        ><p lang="ja">
+          東京特許<ruby data-test="ruby">許可局<rp>(</rp><rt>きょかきょく</rt><rp>)</rp></ruby
+          >の<ruby>仕事<rp>(</rp><rt>しごと</rt><rp>)</rp></ruby>に就く。
+        </p></template
+      >
+      <div class="case__demo"></div>
+      <pre class="case__code"><code></code></pre>
+    </section>
+
+    <!-- ── 圏点(標準の <em> 要素) ── -->
+    <section class="case" id="emphasis">
+      <h2 class="case__title">強調(圏点・傍点)</h2>
+      <p class="case__meta">
+        <b>期待:</b> 和文の &lt;em&gt; は斜体ではなく圏点(ゴマ点)で強調される。
+      </p>
+      <p class="case__meta"><b>ネイティブ:</b> 全エンジン (text-emphasis)</p>
+      <template class="case__src"
+        ><p lang="ja">
+          ここが<em data-test="em">本当に大切な部分</em>なので注意してください。
+        </p></template
+      >
+      <div class="case__demo"></div>
+      <pre class="case__code"><code></code></pre>
+    </section>
+
+    <!-- ── ブロック引用(和文の字下げ作法) ── -->
+    <section class="case" id="blockquote">
+      <h2 class="case__title">ブロック引用(和文の作法)</h2>
+      <p class="case__meta">
+        <b>期待:</b> 左を全角2字下げ＋前後アキ。欧文的な左の縦罫線・斜体・鍵括弧は付けない。
+      </p>
+      <p class="case__meta"><b>ネイティブ:</b> 全エンジン (字下げ方式)</p>
+      <template class="case__src"
+        ><p lang="ja">古典の一節を次のように引用する。</p>
+        <blockquote data-test="blockquote" lang="ja">
+          <p>
+            祇園精舎の鐘の声、諸行無常の響きあり。沙羅双樹の花の色、盛者必衰の理をあらはす。おごれる人も久しからず、ただ春の夜の夢のごとし。
+          </p>
+        </blockquote></template
+      >
+      <div class="case__demo"></div>
+      <pre class="case__code"><code></code></pre>
+    </section>
+
+    <!-- ── 行頭禁則(句読点) ── -->
+    <section class="case narrow" id="kinsoku-start-punct">
+      <h2 class="case__title">行頭禁則: 句読点</h2>
+      <p class="case__meta"><b>期待:</b> 「、」「。」が行頭に来ない(前行に追い込む)。</p>
+      <p class="case__meta"><b>ネイティブ:</b> 全エンジン (line-break: strict)</p>
+      <template class="case__src"
+        ><p lang="ja">
+          これは長いテキストです、短い幅で折り返されます。句読点が、行頭に来ないことを確認します。
+        </p></template
+      >
+      <div class="case__demo"></div>
+      <pre class="case__code"><code></code></pre>
+    </section>
+
+    <!-- ── 行頭禁則(小書き仮名・長音符) ── -->
+    <section class="case narrower" id="kinsoku-small-kana">
+      <h2 class="case__title">行頭禁則: 小書き仮名・長音符</h2>
+      <p class="case__meta"><b>期待:</b> 「ょ」「っ」「ー」などが行頭に来ない。</p>
+      <p class="case__meta"><b>ネイティブ:</b> 全エンジン (line-break: strict)</p>
+      <template class="case__src"
+        ><p lang="ja">
+          きょうはとてもよい天気だったので、ちょっと遠くまで散歩に行きました。
+        </p></template
+      >
+      <div class="case__demo"></div>
+      <pre class="case__code"><code></code></pre>
+    </section>
+
+    <!-- ── 行末禁則(開き括弧) ── -->
+    <section class="case narrow" id="kinsoku-end-bracket">
+      <h2 class="case__title">行末禁則: 開き括弧</h2>
+      <p class="case__meta"><b>期待:</b> 開き括弧「が行末に孤立せず次行へ送られる。</p>
+      <p class="case__meta"><b>ネイティブ:</b> 全エンジン (line-break: strict)</p>
+      <template class="case__src"
+        ><p lang="ja">著者は「彼は走って、彼女は歩いた」と静かに述べたのだった。</p></template
+      >
+      <div class="case__demo"></div>
+      <pre class="case__code"><code></code></pre>
+    </section>
+
+    <!-- ── 約物詰め(行頭開き括弧の半角化) ── -->
+    <section class="case" id="spacing-trim-open">
+      <h2 class="case__title">約物詰め: 行頭開き括弧の半角化</h2>
+      <p class="case__meta"><b>期待:</b> 段落・改行直後以外の行頭の開き括弧を半角に詰める。</p>
+      <p class="case__meta">
+        <b>ネイティブ:</b> Chromium のみ (text-spacing-trim: space-first / halt・chws フォント必須)
+      </p>
+      <template class="case__src"
+        ><p lang="ja">彼は静かに答えた。<br />「それは違うと思う」と。</p></template
+      >
+      <div class="case__demo"></div>
+      <pre class="case__code"><code></code></pre>
+    </section>
+
+    <!-- ── 約物詰め(連続約物) ── -->
+    <section class="case" id="spacing-trim-consecutive">
+      <h2 class="case__title">約物詰め: 連続する約物</h2>
+      <p class="case__meta"><b>期待:</b> 閉じ括弧と句点の連続「」。などの余分なアキを詰める。</p>
+      <p class="case__meta"><b>ネイティブ:</b> Chromium のみ (text-spacing-trim)</p>
+      <template class="case__src"
+        ><p lang="ja">「もう終わったよ」。そして次の話を始めよう。（補足）。以上です。</p></template
+      >
+      <div class="case__demo"></div>
+      <pre class="case__code"><code></code></pre>
+    </section>
+
+    <!-- ── 和欧混植(ラテン文字) ── -->
+    <section class="case" id="autospace-latin">
+      <h2 class="case__title">和欧混植: 和文↔ラテン文字</h2>
+      <p class="case__meta"><b>期待:</b> 和文とラテン語の境界に四分アキが自動で入る。</p>
+      <p class="case__meta"><b>ネイティブ:</b> 全4エンジン (text-autospace: normal)</p>
+      <template class="case__src"
+        ><p lang="ja">
+          最新のHTMLとCSSで日本語をtypesetする。WebブラウザはJavaScriptも実行する。
+        </p></template
+      >
+      <div class="case__demo"></div>
+      <pre class="case__code"><code></code></pre>
+    </section>
+
+    <!-- ── 和欧混植(数字・単位) ── -->
+    <section class="case" id="autospace-numeric">
+      <h2 class="case__title">和欧混植: 和文↔数字・単位</h2>
+      <p class="case__meta"><b>期待:</b> 和文と半角数字の境界にアキ。数字と単位の間は詰める。</p>
+      <p class="case__meta"><b>ネイティブ:</b> 全4エンジン (text-autospace: normal)</p>
+      <template class="case__src"
+        ><p lang="ja">距離は100kmで、所要時間は約2時間30分、運賃は3500円でした。</p></template
+      >
+      <div class="case__demo"></div>
+      <pre class="case__code"><code></code></pre>
+    </section>
+
+    <!-- ── 感嘆符・疑問符 ── -->
+    <section class="case" id="bang-question">
+      <h2 class="case__title">感嘆符・疑問符</h2>
+      <p class="case__meta"><b>期待:</b> 文末の！？の後ろにアキ。前後の約物が適切に処理される。</p>
+      <p class="case__meta"><b>ネイティブ:</b> line-break / text-spacing-trim(Chromium)</p>
+      <template class="case__src"
+        ><p lang="ja">
+          本当に驚きました！　次の章に続きます。彼は何をしているのか？それは明らかだった。
+        </p></template
+      >
+      <div class="case__demo"></div>
+      <pre class="case__code"><code></code></pre>
+    </section>
+
+    <!-- ── 約物: 三点リーダ・ダッシュ・中黒 ── -->
+    <section class="case" id="punctuation-misc">
+      <h2 class="case__title">約物: 三点リーダ・ダッシュ・中黒</h2>
+      <p class="case__meta">
+        <b>期待:</b> 連続するリーダ/ダッシュが分断されず、中黒(・)前後に不自然なアキが入らない。
+      </p>
+      <p class="case__meta"><b>ネイティブ:</b> 全エンジン (字形は変えず壊さないことの確認)</p>
+      <template class="case__src"
+        ><p lang="ja">
+          そして……彼は去った——理由も告げずに。林檎・蜜柑・葡萄を買い求めた。
+        </p></template
+      >
+      <div class="case__demo"></div>
+      <pre class="case__code"><code></code></pre>
+    </section>
+
+    <!-- ── ぶら下げ(行末句読点) ── -->
+    <section class="case narrow" id="hanging-end">
+      <h2 class="case__title">ぶら下げ: 行末の句読点</h2>
+      <p class="case__meta"><b>期待:</b> 行末に来た「、」「。」が版面右端の外側にぶら下がる。</p>
+      <p class="case__meta"><b>ネイティブ:</b> Safari のみ (hanging-punctuation: allow-end)</p>
+      <template class="case__src"
+        ><p lang="ja">
+          この文章はある程度の長さがあって、行末に句読点が来るように調整しています。
+        </p></template
+      >
+      <div class="case__demo"></div>
+      <pre class="case__code"><code></code></pre>
+    </section>
+
+    <!-- ── ぶら下げ(行頭開き括弧) ── -->
+    <section class="case narrow" id="hanging-first">
+      <h2 class="case__title">ぶら下げ: 行頭の開き括弧</h2>
+      <p class="case__meta"><b>期待:</b> 行頭の開き括弧「が版面左端の外側にぶら下がる。</p>
+      <p class="case__meta"><b>ネイティブ:</b> Safari のみ (hanging-punctuation: first)</p>
+      <template class="case__src"
+        ><p lang="ja">
+          「これは引用文です」と彼は言った。そのあとに長めの本文が静かに続いていく。
+        </p></template
+      >
+      <div class="case__demo"></div>
+      <pre class="case__code"><code></code></pre>
+    </section>
+
+    <!-- ── 文節改行(見出しのPEZ防止) ── -->
+    <section class="case narrow" id="autophrase-heading">
+      <h2 class="case__title">文節改行: 見出しの不自然な折り返し防止</h2>
+      <p class="case__meta"><b>期待:</b> 「日本語組版」「処理の」などの文節単位で改行される。</p>
+      <p class="case__meta">
+        <b>ネイティブ:</b> Chromium のみ (word-break: auto-phrase / lang=ja 必須)
+      </p>
+      <template class="case__src"
+        ><h3 lang="ja">日本語組版処理の要件に基づく自動文節改行の例</h3></template
+      >
+      <div class="case__demo"></div>
+      <pre class="case__code"><code></code></pre>
+    </section>
+
+    <!-- ── 文節改行(狭幅段落) ── -->
+    <section class="case narrower" id="autophrase-narrow">
+      <h2 class="case__title">文節改行: 狭い幅の段落</h2>
+      <p class="case__meta"><b>期待:</b> 狭幅でも意味のまとまりで折れ、読みやすさを保つ。</p>
+      <p class="case__meta"><b>ネイティブ:</b> Chromium のみ (word-break: auto-phrase)</p>
+      <template class="case__src"
+        ><p lang="ja">日本語組版処理の要件を満たす自動改行の実装。</p></template
+      >
+      <div class="case__demo"></div>
+      <pre class="case__code"><code></code></pre>
+    </section>
+
+    <script type="module">
+      // 各ケースの <template> を「ライブ描画」と「ソース表示」の両方に展開する(単一の真実源)。
+      for (const section of document.querySelectorAll(".case")) {
+        const template = section.querySelector(".case__src");
+        const stage = section.querySelector(".case__demo");
+        const code = section.querySelector(".case__code code");
+        if (!template || !stage || !code) continue;
+        stage.append(template.content.cloneNode(true));
+        code.textContent = template.innerHTML.trim();
+      }
+    </script>
+  </body>
+</html>

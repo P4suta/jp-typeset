@@ -1,0 +1,9 @@
+# pnpm 11+ の設定置き場。
+# バイナリDLを伴うビルドスクリプトを明示的に許可する(非対話・再現可能)。
+allowBuilds:
+  lefthook: true
+  lightningcss-cli: true
+
+# コンテンツアドレス可能ストアを、ホスト bind mount ではなくコンテナ内の
+# 名前付きボリューム(/home/dev/.pnpm-store)へ置く。ホストの作業ディレクトリを汚さない。
+storeDir: /home/dev/.pnpm-store

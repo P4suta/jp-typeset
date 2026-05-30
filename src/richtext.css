@@ -1,0 +1,23 @@
+/**
+ * jp.richtext — 標準の行内意味要素の和文表現(常時・全エンジン)
+ *
+ * 標準HTMLのセマンティック要素を、和文として自然な見た目に整える。
+ * 特定のフレームワークや記法に依存しない(プレーンな <ruby>/<em> だけが対象)。
+ */
+@layer jp.richtext {
+  /* 和文では斜体が不自然なため、斜体になりがちな行内要素の擬似斜体を解除する。 */
+  :where(:lang(ja), .jp) :where(em, i, cite, dfn) {
+    font-style: normal;
+  }
+
+  /* 強調 <em> は斜体ではなく圏点(傍点)で示すのが和文の標準。 */
+  :where(:lang(ja), .jp) :where(em) {
+    text-emphasis: var(--jp-emphasis);
+  }
+
+  /* ルビ(ふりがな)。標準の <ruby>/<rt> を和文向けの大きさ・行送りに整える。 */
+  :where(:lang(ja), .jp) :where(rt) {
+    font-size: var(--jp-rt-scale);
+    line-height: var(--jp-rt-leading);
+  }
+}

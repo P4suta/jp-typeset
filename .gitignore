@@ -1,0 +1,18 @@
+# dependencies (Docker の名前付きボリュームに隔離されるが、念のため)
+node_modules/
+.pnpm-store/
+
+# build output (Lightning CSS が生成。CI/コンテナでビルドする)
+dist/
+
+# test artifacts (視覚回帰の基準画像 tests/**/*-snapshots/ は追跡する)
+test-results/
+playwright-report/
+blob-report/
+
+# 全ページプレビュー生成物(目視用・回帰ではない)
+.shots/
+
+# misc
+*.log
+.DS_Store

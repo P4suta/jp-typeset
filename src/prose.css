@@ -1,0 +1,40 @@
+/**
+ * jp.prose — 標準的な書き方の規則(opinionated)
+ *
+ * 行間・両端揃え・段落字下げ。日本語の散文として自然な既定値を与える。
+ * 「原稿用紙のマス目の見た目」を再現するものではない(固定字詰め・グリッドはしない)。
+ */
+@layer jp.prose {
+  /* 行間と両端揃えは本文ブロックに限定する。
+     スコープ根に当てると行間(1.8)が見出し・pre/code・表・フォーム部品へ
+     継承漏れするため、対象を本文要素に絞る。見出し(h1〜h6)も対象外。 */
+  :where(:lang(ja), .jp) :where(p, li, dd, blockquote) {
+    line-height: var(--jp-leading);
+    text-align: var(--jp-text-align);
+  }
+
+  /* 文頭字下げは段落(p)のみ。
+     li/dd はマーカー・インデントが段落構造を担うため一律字下げしない。
+     ※ 純CSSでは段落の先頭文字(「など)を判定できない(:has()不可)ため、
+       会話文の「で始まる段落も一律に字下げする。現代日本語組版でも一般的。 */
+  :where(:lang(ja), .jp) :where(p) {
+    margin-block: var(--jp-paragraph-gap);
+    text-indent: var(--jp-indent);
+  }
+
+  /* ブロック引用は和文の作法に寄せる: 左を全角2字下げ・前後にアキ。
+     欧文的な左罫線・斜体・鍵括弧は付けない(字下げ自体が引用の合図)。
+     padding 方式なので入れ子の引用でも字下げが累積する。 */
+  :where(:lang(ja), .jp) :where(blockquote) {
+    margin-block: var(--jp-quote-gap);
+    margin-inline: 0;
+    padding-inline-start: var(--jp-quote-indent);
+  }
+
+  /* 引用は全体の字下げで示すため、引用内の段落は行頭字下げしない。
+     トークンは :lang(ja) で各要素に再宣言され --jp-indent の継承上書きが効かないので、
+     ここで text-indent を直接 0 にする(一般 p ルールより後に置き source order で上書き)。 */
+  :where(:lang(ja), .jp) :where(blockquote) :where(p) {
+    text-indent: 0;
+  }
+}

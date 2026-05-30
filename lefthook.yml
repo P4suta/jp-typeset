@@ -1,0 +1,23 @@
+# lefthook — git フック管理
+#
+# コミット時に staged ファイルを自動修正し、修正結果を自動で再ステージする(確認不要)。
+# フックは Docker 内の lefthook に委譲されて実行される(`just hooks` がホスト側フックを設置)。
+# ノード製ツールは pnpm exec 経由で node_modules/.bin を解決する。
+pre-commit:
+  parallel: false
+  commands:
+    biome:
+      glob: "*.{ts,mts,cts,js,mjs,cjs}"
+      run: pnpm exec biome check --write --no-errors-on-unmatched {staged_files}
+      stage_fixed: true
+    stylelint:
+      glob: "*.css"
+      run: pnpm exec stylelint --fix {staged_files}
+      stage_fixed: true
+    prettier:
+      glob: "*.{css,html,md,json,yaml,yml}"
+      run: pnpm exec prettier --write --ignore-unknown {staged_files}
+      stage_fixed: true
+    typos:
+      run: typos -w --force-exclude {staged_files}
+      stage_fixed: true

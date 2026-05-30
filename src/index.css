@@ -1,0 +1,22 @@
+/**
+ * jp-typeset — 日本語Web組版のドロップインCSSプリセット
+ *
+ * 単一エントリ。カスケードレイヤーの順序を宣言し、各レイヤーのパーシャルを読み込む。
+ * レイヤー順 = 優先度(後勝ち)。無名レイヤー(=ユーザーの通常CSS)は名前付きレイヤーより
+ * 常に優先されるため、利用者は詳細度を気にせず上書きできる。
+ *
+ *   jp.tokens   … デザイントークン(--jp-*)。全数値の単一の真実源(SSOT)
+ *   jp.core     … 文字組みの基層(禁則・折り返し・和欧間アキ)。常時・全エンジン
+ *   jp.prose    … 標準的な書き方の規則(行間・両端揃え・段落字下げ)
+ *   jp.richtext … 標準の行内意味要素の和文表現(ルビ・圏点)。常時・全エンジン
+ *   jp.enhance  … @supports による段階強化。対応エンジンでのみ上乗せ
+ *
+ * ビルド: Lightning CSS が @import を1枚に束ねる(dist/jp-typeset.css)。
+ */
+@layer jp.tokens, jp.core, jp.prose, jp.richtext, jp.enhance;
+
+@import "./tokens.css";
+@import "./core.css";
+@import "./prose.css";
+@import "./richtext.css";
+@import "./enhance.css";

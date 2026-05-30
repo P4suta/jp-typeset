@@ -1,0 +1,12 @@
+version: 2
+updates:
+  # 依存は latest 追従方針。Dependabot で lockfile とアクションのバージョンを定期更新する。
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

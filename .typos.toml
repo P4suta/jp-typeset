@@ -1,0 +1,30 @@
+# typos — 誤字脱字チェッカ設定
+# 日本語(非ASCII)の語は元々対象外。英語の専門用語・固有名詞のみ allowlist する。
+
+[files]
+extend-exclude = [
+  "pnpm-lock.yaml",
+  "dist/",
+  "node_modules/",
+  "test-results/",
+  "playwright-report/",
+  "blob-report/",
+  "**/*-snapshots/**",
+]
+
+[default]
+locale = "en-us"
+
+[default.extend-identifiers]
+# OpenType フィーチャタグ・固有名詞など(綴りを固定し誤検出を防ぐ)
+chws = "chws"
+halt = "halt"
+palt = "palt"
+vert = "vert"
+BudouX = "BudouX"
+Vivliostyle = "Vivliostyle"
+
+[default.extend-words]
+# 短い専門略語
+jp = "jp"
+ja = "ja"

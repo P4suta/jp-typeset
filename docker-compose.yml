@@ -1,0 +1,39 @@
+# jp-typeset 開発環境
+#
+# 使い方(すべて非root・UID/GID 1000 で実行される):
+#   docker compose build
+#   docker compose run --rm dev pnpm install
+#   docker compose run --rm dev pnpm build
+#   docker compose run --rm dev pnpm lint
+#   docker compose run --rm dev pnpm test
+#   開発サーバ: docker compose run --rm --service-ports dev pnpm dev   (→ http://localhost:5173/demo/)
+#
+# ソース・設定・dist は bind mount でホストに残る(成果物)。
+# node_modules は名前付きボリュームに隔離し、ホストの作業ディレクトリを汚さない。
+name: jp-typeset
+
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: jp-typeset-dev
+    # ホストの yasunobu(1000:1000)に一致させ、生成物が root 所有にならないようにする。
+    user: "1000:1000"
+    working_dir: /workspace
+    init: true
+    environment:
+      CI: "true"
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/workspace
+      # node_modules と pnpm ストアは名前付きボリュームに隔離し、ホストの作業ディレクトリを汚さない。
+      - node_modules:/workspace/node_modules
+      - pnpm_store:/home/dev/.pnpm-store
+    # `docker compose run` で都度コマンドを渡す前提。`up` 用の常駐コマンド。
+    command: ["sleep", "infinity"]
+
+volumes:
+  node_modules:
+  pnpm_store:

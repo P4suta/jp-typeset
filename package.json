@@ -1,0 +1,75 @@
+{
+  "name": "jp-typeset",
+  "version": "0.1.0",
+  "description": "日本語Web組版のドロップインCSSプリセット — 禁則・約物アキ詰め・和欧間アキ・文頭字下げ・両端揃え・ぶら下げ・文節改行を <link> 一発で",
+  "keywords": [
+    "css",
+    "japanese",
+    "typography",
+    "typesetting",
+    "kinsoku",
+    "jlreq",
+    "組版",
+    "禁則処理"
+  ],
+  "license": "MIT",
+  "author": "Yasunobu (https://github.com/P4suta)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/P4suta/jp-typeset.git"
+  },
+  "homepage": "https://github.com/P4suta/jp-typeset#readme",
+  "bugs": "https://github.com/P4suta/jp-typeset/issues",
+  "type": "module",
+  "style": "dist/jp-typeset.css",
+  "exports": {
+    ".": "./dist/jp-typeset.css",
+    "./min": "./dist/jp-typeset.min.css",
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "prebuild": "mkdir -p dist",
+    "build:css": "lightningcss --bundle src/index.css -o dist/jp-typeset.css",
+    "build:min": "lightningcss --bundle --minify src/index.css -o dist/jp-typeset.min.css",
+    "build": "pnpm run build:css && pnpm run build:min",
+    "dev": "vite --port 5173 --host",
+    "lint:css": "stylelint \"src/**/*.css\"",
+    "lint:js": "biome check .",
+    "lint": "pnpm run lint:css && pnpm run lint:js",
+    "format:check": "prettier --check .",
+    "typos": "typos",
+    "typecheck": "tsc --noEmit",
+    "fix": "stylelint --fix \"src/**/*.css\" && biome check --write . && prettier --write . && typos -w",
+    "pretest": "pnpm run build",
+    "test": "playwright test",
+    "test:computed": "playwright test tests/computed.spec.ts",
+    "test:visual": "playwright test tests/visual.spec.ts",
+    "test:update": "playwright test --update-snapshots",
+    "shots": "pnpm run build && playwright test --config playwright.preview.config.ts",
+    "check": "pnpm run lint && pnpm run format:check && pnpm run typecheck && pnpm run typos && pnpm run build && pnpm run test",
+    "ci:gate": "pnpm run lint && pnpm run format:check && pnpm run typecheck && pnpm run typos && pnpm run build && pnpm run test:computed",
+    "prepublishOnly": "pnpm run build"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "latest",
+    "@playwright/test": "1.60.0",
+    "@types/node": "latest",
+    "lefthook": "latest",
+    "lightningcss-cli": "latest",
+    "prettier": "latest",
+    "stylelint": "latest",
+    "stylelint-config-standard": "latest",
+    "typescript": "latest",
+    "vite": "latest"
+  }
+}
