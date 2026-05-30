@@ -28,4 +28,9 @@
     font-size: var(--jp-rt-scale);
     line-height: var(--jp-rt-leading);
   }
+
+  /* 添え字(上付き・下付き)。大きさ・位置は UA に任せ、行の高さ(行送り)を乱さない。 */
+  :where(:lang(ja), .jp) :where(sub, sup) {
+    line-height: 0;
+  }
 }

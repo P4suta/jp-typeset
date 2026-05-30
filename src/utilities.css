@@ -17,4 +17,11 @@
   :where(.jp-tcy) {
     text-combine-upright: all;
   }
+
+  /* 読みやすい行長に制限して中央寄せ(基本版面・行長/JLReq §2.4)。opt-in。
+     横組みでは幅、縦組みでは高さの上限になる(論理プロパティ)。 */
+  :where(.jp-measure) {
+    max-inline-size: var(--jp-measure);
+    margin-inline: auto;
+  }
 }

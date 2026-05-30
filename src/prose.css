@@ -37,4 +37,10 @@
   :where(:lang(ja), .jp) :where(blockquote) :where(p) {
     text-indent: 0;
   }
+
+  /* 見出しの前後アキ(JLReq §4.1.3)。各見出しの文字サイズに比例(em)。
+     ゼロ詳細度なのでサイト側の見出しスタイルが優先される控えめな既定。 */
+  :where(:lang(ja), .jp) :where(h1, h2, h3, h4, h5, h6) {
+    margin-block: var(--jp-heading-margin-block);
+  }
 }

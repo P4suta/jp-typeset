@@ -32,7 +32,7 @@
       "/^overflow-(x|y)$/"
     ],
     "declaration-property-value-allowed-list": {
-      "line-height": ["/^var\\(--jp-/"],
+      "line-height": ["/^var\\(--jp-/", "0"],
       "text-indent": ["/^var\\(--jp-/", "0"],
       "text-align": ["/^var\\(--jp-/"],
       "margin-block": ["/^var\\(--jp-/"],

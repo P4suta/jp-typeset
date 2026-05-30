@@ -39,5 +39,11 @@
     /* ブロック引用の字下げ量(全角2字)と前後アキ。和文の引用作法。 */
     --jp-quote-indent: 2em;
     --jp-quote-gap: 1em;
+
+    /* 見出しの前後アキ(前 後)。各見出しの文字サイズに比例(em)。JLReq §4.1.3。 */
+    --jp-heading-margin-block: 1.5em 0.5em;
+
+    /* 読みやすい行長(opt-in の .jp-measure 用)。全角およそ40字。JLReq §2.4(基本版面)。 */
+    --jp-measure: 40em;
   }
 }
