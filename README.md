@@ -1,5 +1,8 @@
 # jp-typeset
 
+[![CI](https://github.com/P4suta/jp-typeset/actions/workflows/ci.yml/badge.svg)](https://github.com/P4suta/jp-typeset/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-informational.svg)](./LICENSE)
+
 日本語Web組版の「標準的な書き方の規則」を、最新の CSS だけで実現するドロップインCSSプリセット。
 `<link>` 一発で、**文頭字下げ・禁則処理・約物のアキ詰め・和欧間アキ・両端揃え・ぶら下げ・文節改行・ルビ・圏点(傍点)**が効く。
 
