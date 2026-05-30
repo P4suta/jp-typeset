@@ -27,9 +27,11 @@
     "noEmit": true
   },
   "include": [
+    "src/**/*.ts",
     "tests/**/*.ts",
     "playwright.config.ts",
     "playwright.preview.config.ts",
-    "vite.config.ts"
+    "vite.config.ts",
+    "vite.lib.config.ts"
   ]
 }

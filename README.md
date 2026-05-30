@@ -73,6 +73,7 @@ pnpm add jp-typeset
 下4つは `@supports` で段階強化しているため、対応エンジンでのみ有効になる。
 文節改行(`word-break: auto-phrase`)は見出し・短文にのみ適用する(本文全体への適用は Chrome 公式も非推奨)。
 均等割り(`text-justify: inter-character`)は英数字を多く含む行で字間が広がることがある。
+エンジン差のある**約物詰め・ぶら下げ・文節改行**は、任意の JS 層で非対応ブラウザも補える(下記「ブラウザ差を埋める JS」)。
 
 > [!TIP]
 > 約物のアキ詰め(`text-spacing-trim`)は、`halt`/`chws` を持つフォント(Noto Sans CJK / 源ノ角ゴシック等)でのみ効く。
@@ -138,6 +139,50 @@ HTML にもそのまま効く。見出し・段落・リスト・引用・表・
 }
 ```
 
+## ブラウザ差を埋める JS(`jp-typeset/enhance`)
+
+CSS だけでは全ブラウザで揃わない項目(文節改行・ぶら下げ・約物のアキ詰め)を、**任意の JS 層**で補える。
+各機能は `CSS.supports()` で対応を判定し、**ネイティブ対応があれば何もしない**(対応が来たら自動で消えるブリッジ)。
+CSS コア(`import "jp-typeset"`)は実行時依存ゼロのまま。この層と BudouX 依存は `jp-typeset/enhance` だけが背負う。
+
+### 使い方
+
+CDN なら CSS の `<link>` に `<script>` を1行足すだけ(`lang="ja"`/`.jp` を自動強化):
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jp-typeset/dist/jp-typeset.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/jp-typeset/dist/enhance.iife.js" defer></script>
+```
+
+バンドラなら ESM を明示的に呼ぶ(tree-shakeable):
+
+```js
+import { enhance } from "jp-typeset/enhance";
+
+enhance(); // 既定は文節改行のみ。SPA の再描画後に呼び直してもよい(冪等)
+enhance(document, { hanging: true, spacingTrim: true }); // 実験ブリッジを追加
+```
+
+### できること
+
+| オプション          | 既定 | 内容                                              | ネイティブ対応(no-op になる条件) |
+| ------------------- | ---- | ------------------------------------------------- | -------------------------------- |
+| `phrasing`          | on   | BudouX で見出し・短文を文節改行(`<wbr>` を挿入)   | `word-break: auto-phrase`        |
+| `dialogueIndent`    | off  | 始め括弧で始まる段落の先頭字下げを詰める          | (CSS に等価なし・opt-in)         |
+| `hanging`(実験)     | off  | ぶら下げ組(行頭開き括弧・行末句読点を版面外へ)    | `hanging-punctuation: first`     |
+| `spacingTrim`(実験) | off  | 連続する全角約物のアキを詰める                    | `text-spacing-trim`              |
+| `observe`           | off  | layout 依存ブリッジ(ぶら下げ)を resize 時に再適用 | —                                |
+
+- **旗艦は文節改行**。`word-break: auto-phrase` 非対応の Safari / Firefox でも、見出しが意味のまとまりで折れる。本文(`p`)には当てない(CSS と同じスコープ)。
+- 区切りは不可視の `<wbr>` を使うので、コピー&ペースト・スクリーンリーダー・検索を汚さない。ルビ・圏点などインライン要素も壊さない。
+- **実験**印の `hanging` / `spacingTrim` は layout 測定やフォント依存の近似を含むため既定 OFF。行末ぶら下げ(allow-end)は reflow で崩れるので `observe: true` で再計測できる。
+- 文節改行は冪等(`<wbr>` を二重に挿さない)。`dialogueIndent` を既定 OFF にするのは、CSS 側の「会話文も一律に字下げ」という意図的な判断を尊重するため。
+- **縦書き(`.jp-vertical`)でも全ブリッジが動く**。挿入する余白はすべて論理プロパティ(`margin-inline-*` / `text-indent`)で、ぶら下げの行末判定だけは `writing-mode` を見て軸を切り替える(縦組みは「列の下端」が行末)。文節改行・ぶら下げ・約物詰め・字下げがそのまま縦組みへ適応する。
+
+> [!NOTE]
+> CDN 版(`enhance.iife.js`)は BudouX と日本語モデルを内包する単一ファイル(およそ 145KB gzip)。
+> npm/ESM 版は `budoux` を外部依存とし動的 import するため、**ネイティブ対応ブラウザではモデルを一切読み込まない**。
+
 ## 開発
 
 すべての作業は Docker コンテナ内(非root・UID/GID 1000)で完結し、ホストを汚さない。
@@ -169,6 +214,12 @@ Stylelint + Biome(lint・整形) / Prettier(整形) / [typos](https://github.com
 視覚回帰の基準画像はレンダリング環境(エンジン・フォント)に依存する。基準は Docker イメージ(Noto CJK 同梱)で生成しており、
 環境やフォントが変わって差分が出たら `./x test-update` で再生成する。決定論的な検証は computed-style テスト側が担う。
 
+JS ブリッジ層(`jp-typeset/enhance`)も同じ2層で検証する。**決定論層** `tests/enhance.spec.ts` が、
+ページ内 `CSS.supports` を基準にした no-op/ゲート・`<wbr>` 挿入・冪等・非破壊・IIFE 成果物に内包した
+BudouX の実動作を3エンジンでアサートし(`ci:gate` に含む)、**視覚回帰層** `tests/enhance.visual.spec.ts` が
+文節改行・字下げ・ぶら下げ・約物詰めを固定狭幅で撮る(`test:visual`・非ゲート)。`./x dev` で
+`demo/enhance-esm.html` / `demo/enhance-iife.html` を各ブラウザで目視できる。
+
 ### Playwright のバージョン
 
 `@playwright/test` は Docker イメージ(`mcr.microsoft.com/playwright:vX.Y.Z-noble`)に同梱されるブラウザと
@@ -176,8 +227,9 @@ Stylelint + Biome(lint・整形) / Prettier(整形) / [typos](https://github.com
 
 ## 今後(スコープ外)
 
-- 非対応ブラウザ向けの JS/Rust-WASM polyfill(BudouX による文節改行、ぶら下げの代替実装など)。
-  「対応が来たら消せるブリッジ」として別オプトイン層に。
+- 行末ぶら下げ(`hanging-punctuation` の allow-end)の忠実な JS polyfill。現状は best-effort の実験オプション
+  (`enhance({ hanging })`)に留め、行ごとの再計測が要る完全実装は見送り(ネイティブに委ねる)。
+- 縦書き本文への JS ブリッジ、ページ組版(`@page`)など(明確にスコープ外)。
 
 ## ライセンス
 

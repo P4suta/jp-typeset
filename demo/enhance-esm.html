@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>jp-typeset/enhance — ESM テストハーネス</title>
+    <!-- プリセット本体。enhance 層が補う対象の CSS を効かせておく。 -->
+    <link rel="stylesheet" href="/dist/jp-typeset.css" />
+    <style>
+      body {
+        margin-inline: auto;
+        max-inline-size: 32rem;
+        padding: 2rem;
+        font-family: "Noto Sans CJK JP", "Noto Sans JP", sans-serif;
+      }
+      .narrow {
+        max-inline-size: 9em;
+      }
+    </style>
+  </head>
+  <body>
+    <h2 data-test="heading-plain">日本語組版処理の要件を満たす自動改行の実装例です</h2>
+
+    <h2 data-test="heading-markup">
+      <ruby>青空<rp>(</rp><rt>あおぞら</rt><rp>)</rp></ruby>の下で<em>大切な一日</em>を過ごした記録
+    </h2>
+
+    <p data-test="body-para">
+      これは本文の段落です。文節改行は見出しに限定するため、本文には wbr を入れない方針です。
+    </p>
+
+    <p data-test="dialogue">「こんにちは」と彼女は言った。会話文は始め括弧で始まる段落の例です。</p>
+
+    <p data-test="hanging-first" class="narrow">
+      「むかしむかし、あるところに」と物語は静かに始まった。
+    </p>
+
+    <p data-test="spacing-para">彼は「こんにちは」。（補足）と書き添えた。</p>
+
+    <!-- 縦書き(.jp-vertical)でも同じ機能が効くことの検証。論理プロパティ＋JS の writing-mode 対応。 -->
+    <div class="jp-vertical" lang="ja" style="inline-size: 8em">
+      <h2 data-test="v-heading">日本語組版処理の要件を満たす自動改行の実装例です</h2>
+      <h2 data-test="v-heading-markup">
+        <ruby>青空<rp>(</rp><rt>あおぞら</rt><rp>)</rp></ruby
+        >の下で<em>大切な一日</em>を過ごした記録
+      </h2>
+      <p data-test="v-dialogue">「こんにちは」と彼女は静かに言った。会話文の例です。</p>
+      <p data-test="v-hanging-first">
+        「むかしむかし、あるところに」と物語は始まった。さて、どうなることか、楽しみだ。
+      </p>
+      <p data-test="v-spacing">彼は「こんにちは」。（補足）と書き添えた。</p>
+    </div>
+
+    <script type="module">
+      // テストハーネス: Vite が /src を解決・トランスパイルするためソースを直接読む。
+      // (実利用は import { enhance } from 'jp-typeset/enhance')。auto-init はせず、
+      // テストが window.enhance を明示的に呼ぶことで適用タイミングを決定論的にする。
+      import { enhance } from "/src/enhance.ts";
+      window.enhance = enhance;
+      document.documentElement.setAttribute("data-harness-ready", "");
+    </script>
+  </body>
+</html>
