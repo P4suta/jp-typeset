@@ -25,6 +25,10 @@
   "exports": {
     ".": "./dist/jp-typeset.css",
     "./min": "./dist/jp-typeset.min.css",
+    "./enhance": {
+      "types": "./dist/enhance.d.ts",
+      "import": "./dist/enhance.js"
+    },
     "./src/*": "./src/*",
     "./package.json": "./package.json"
   },
@@ -41,7 +45,9 @@
     "prebuild": "mkdir -p dist",
     "build:css": "lightningcss --bundle src/index.css -o dist/jp-typeset.css",
     "build:min": "lightningcss --bundle --minify src/index.css -o dist/jp-typeset.min.css",
-    "build": "pnpm run build:css && pnpm run build:min",
+    "build:js": "vite build -c vite.lib.config.ts --mode esm && vite build -c vite.lib.config.ts --mode iife",
+    "build:types": "tsc -p tsconfig.build.json",
+    "build": "pnpm run build:css && pnpm run build:min && pnpm run build:js && pnpm run build:types",
     "dev": "vite --port 5173 --host",
     "lint:css": "stylelint \"src/**/*.css\"",
     "lint:js": "biome check .",
@@ -53,12 +59,16 @@
     "pretest": "pnpm run build",
     "test": "playwright test",
     "test:computed": "playwright test tests/computed.spec.ts",
-    "test:visual": "playwright test tests/visual.spec.ts",
+    "test:enhance": "playwright test tests/enhance.spec.ts",
+    "test:visual": "playwright test tests/visual.spec.ts tests/enhance.visual.spec.ts",
     "test:update": "playwright test --update-snapshots",
     "shots": "pnpm run build && playwright test --config playwright.preview.config.ts",
     "check": "pnpm run lint && pnpm run format:check && pnpm run typecheck && pnpm run typos && pnpm run build && pnpm run test",
-    "ci:gate": "pnpm run lint && pnpm run format:check && pnpm run typecheck && pnpm run typos && pnpm run build && pnpm run test:computed",
+    "ci:gate": "pnpm run lint && pnpm run format:check && pnpm run typecheck && pnpm run typos && pnpm run build && pnpm run test:computed && pnpm run test:enhance",
     "prepublishOnly": "pnpm run build"
+  },
+  "dependencies": {
+    "budoux": "^0.8.4"
   },
   "devDependencies": {
     "@biomejs/biome": "latest",
