@@ -1,4 +1,4 @@
-FROM jdxcode/mise:2026.10.13@sha256:a2f1563d47f56a7ce69d5c94ac61d9f7af5063613bfd3c50e6268768ed9c87ad AS tools
+FROM jdxcode/mise:2026.10.14@sha256:7cb6019fd7e60dfc3622b1d667d3e57628549fbc9e36b4a5768265388342f754 AS tools
 FROM mcr.microsoft.com/playwright:v1.64.1-noble@sha256:7852dc5a7d72f5fe458a597d690f6c42fbc8e9e26ddfa95f8e6ef552558d9bbf
 
 COPY --from=tools /usr/local/bin/mise /usr/local/bin/mise

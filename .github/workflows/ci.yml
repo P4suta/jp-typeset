@@ -38,7 +38,7 @@ jobs:
         run: test "$BROWSER" = true || test "$BROWSER" = false
       - uses: jdx/mise-action@fc42bcc7ddbf51124c30f95a877a0c5168a3bfde # v5.2.1
         with:
-          version: v2026.10.13
+          version: v2026.10.14
           install_args: node pnpm just lefthook github:crate-ci/typos
       - name: Locate the dependency store
         id: store
