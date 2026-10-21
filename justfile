@@ -10,9 +10,17 @@ set shell := ["bash", "-cu"]
 default:
     @just --list
 
+# Run checks without launching browsers.
+ci-fast:
+    pnpm run ci:fast
+
+# Check browser behavior with a fixed worker count and no retries.
+test-gate:
+    pnpm run test:gate
+
 # 依存インストール
 install:
-    pnpm install
+    pnpm install --frozen-lockfile
 
 # dist/ をビルド(Lightning CSS)
 build:

@@ -17,6 +17,8 @@ export default defineConfig({
     baseURL: baseUrl,
     locale: 'ja-JP',
     timezoneId: 'Asia/Tokyo',
+    trace: 'retain-on-failure',
+    screenshot: 'only-on-failure',
   },
   // Vite で見本帳(demo/)を配信し、dist の成果物を読み込ませる。
   // dist は pretest(pnpm build)で生成済みである前提。

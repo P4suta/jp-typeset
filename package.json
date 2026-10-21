@@ -1,7 +1,8 @@
 {
   "name": "jp-typeset",
   "version": "0.1.0",
-  "description": "日本語Web組版のドロップインCSSプリセット — 禁則・約物アキ詰め・和欧間アキ・文頭字下げ・両端揃え・ぶら下げ・文節改行を <link> 一発で",
+  "description": "CSS presets for Japanese typography",
+  "packageManager": "pnpm@12.14.0",
   "keywords": [
     "css",
     "japanese",
@@ -12,7 +13,7 @@
     "組版",
     "禁則処理"
   ],
-  "license": "MIT",
+  "license": "MIT OR Apache-2.0",
   "author": "Yasunobu (https://github.com/P4suta)",
   "repository": {
     "type": "git",
@@ -36,7 +37,9 @@
     "dist",
     "src",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "LICENSE-MIT",
+    "LICENSE-APACHE"
   ],
   "sideEffects": [
     "*.css"
@@ -64,22 +67,23 @@
     "test:update": "playwright test --update-snapshots",
     "shots": "pnpm run build && playwright test --config playwright.preview.config.ts",
     "check": "pnpm run lint && pnpm run format:check && pnpm run typecheck && pnpm run typos && pnpm run build && pnpm run test",
-    "ci:gate": "pnpm run lint && pnpm run format:check && pnpm run typecheck && pnpm run typos && pnpm run build && pnpm run test:computed && pnpm run test:enhance",
+    "ci:fast": "pnpm run lint && pnpm run format:check && pnpm run typecheck && pnpm run typos && pnpm run build",
+    "test:gate": "playwright test tests/computed.spec.ts tests/enhance.spec.ts tests/gfm.spec.ts --workers=2 --retries=0",
+    "ci:gate": "pnpm run ci:fast && pnpm run test:gate",
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
-    "budoux": "^0.8.4"
+    "budoux": "^0.10.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "latest",
-    "@playwright/test": "1.60.0",
-    "@types/node": "latest",
-    "lefthook": "latest",
-    "lightningcss-cli": "latest",
-    "prettier": "latest",
-    "stylelint": "latest",
-    "stylelint-config-standard": "latest",
-    "typescript": "latest",
-    "vite": "latest"
+    "@biomejs/biome": "2.5.15",
+    "@playwright/test": "1.64.1",
+    "@types/node": "24.19.2",
+    "lightningcss-cli": "1.33.0",
+    "prettier": "3.9.10",
+    "stylelint": "17.16.0",
+    "stylelint-config-standard": "40.0.0",
+    "typescript": "7.0.2",
+    "vite": "8.3.4"
   }
 }

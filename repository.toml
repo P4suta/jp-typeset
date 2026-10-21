@@ -1,0 +1,23 @@
+name = "jp-typeset"
+summary = "CSS presets for Japanese typography"
+install = '''
+git clone https://github.com/P4suta/jp-typeset.git
+cd jp-typeset
+docker compose build
+docker compose run --rm dev pnpm install --frozen-lockfile
+docker compose run --rm dev pnpm run build
+'''
+usage_language = "html"
+usage = '''
+<link rel="stylesheet" href="dist/jp-typeset.min.css" />
+<article lang="ja">
+  <p>日本語の本文。</p>
+</article>
+'''
+documentation_index = true
+copyright = "2026 jp-typeset contributors"
+license = "MIT OR Apache-2.0"
+
+[[consent]]
+contributor = "Yasunobu"
+evidence = "https://github.com/P4suta/jp-typeset/commit/4561e0395987f61422c398d6ef5ff4f84a9edfae"
