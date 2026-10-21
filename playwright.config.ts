@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 
 const PORT = 4173
+const SERVER_START_TIMEOUT_MS = 120_000
 const baseUrl = `http://localhost:${PORT}`
 const isCi = Boolean(process.env['CI'])
 
@@ -26,7 +27,7 @@ export default defineConfig({
     command: `pnpm exec vite --port ${PORT} --strictPort`,
     url: `${baseUrl}/demo/index.html`,
     reuseExistingServer: !isCi,
-    timeout: 120_000,
+    timeout: SERVER_START_TIMEOUT_MS,
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
