@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 
 const PORT = 4173
+const SERVER_START_TIMEOUT_MS = 120_000
 const baseUrl = `http://localhost:${PORT}`
 const isCi = Boolean(process.env['CI'])
 
@@ -17,6 +18,8 @@ export default defineConfig({
     baseURL: baseUrl,
     locale: 'ja-JP',
     timezoneId: 'Asia/Tokyo',
+    trace: 'retain-on-failure',
+    screenshot: 'only-on-failure',
   },
   // Vite で見本帳(demo/)を配信し、dist の成果物を読み込ませる。
   // dist は pretest(pnpm build)で生成済みである前提。
@@ -24,7 +27,7 @@ export default defineConfig({
     command: `pnpm exec vite --port ${PORT} --strictPort`,
     url: `${baseUrl}/demo/index.html`,
     reuseExistingServer: !isCi,
-    timeout: 120_000,
+    timeout: SERVER_START_TIMEOUT_MS,
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },

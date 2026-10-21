@@ -1,7 +1,3 @@
 #!/bin/sh
-# jp-typeset: 自動修正フックを Docker 内 lefthook に委譲する(host を汚さない)。
-if ! docker compose version >/dev/null 2>&1; then
-  echo "[jp-typeset] docker compose が見つからないため pre-commit をスキップします" >&2
-  exit 0
-fi
+# Run the same project checks inside the development container.
 exec docker compose run --rm -T dev pnpm exec lefthook run pre-commit
