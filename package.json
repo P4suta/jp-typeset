@@ -2,7 +2,7 @@
   "name": "jp-typeset",
   "version": "0.1.0",
   "description": "CSS presets for Japanese typography",
-  "packageManager": "pnpm@12.14.0",
+  "packageManager": "pnpm@12.15.0",
   "keywords": [
     "css",
     "japanese",
@@ -76,7 +76,7 @@
     "budoux": "^0.10.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.15",
+    "@biomejs/biome": "2.6.2",
     "@playwright/test": "1.64.1",
     "@types/node": "24.19.2",
     "lightningcss-cli": "1.33.0",
@@ -84,6 +84,6 @@
     "stylelint": "17.16.0",
     "stylelint-config-standard": "40.0.0",
     "typescript": "7.0.2",
-    "vite": "8.3.4"
+    "vite": "8.3.5"
   }
 }
